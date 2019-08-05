@@ -45,7 +45,7 @@ namespace MyShop.DataAccess.InMemory
         /// <summary>
         /// Updates the product information. Throws ProductNotFoundException when the product ID is invalid.
         /// </summary>
-        /// <param name="product">Product object with product information that needs to be updates.</param>
+        /// <param name="product">Product object with product information that needs to be updated.</param>
         public void Update(Product product)
         {
             Product productToUpdate = products.Find(prod => prod.Id == product.Id);
@@ -89,6 +89,10 @@ namespace MyShop.DataAccess.InMemory
             return products.AsQueryable();
         }
 
+        /// <summary>
+        /// Deletes the mentioned product or throws ProductNotFoundException.
+        /// </summary>
+        /// <param name="id">Id of the product to be deleted.</param>
         public void Delete(string id)
         {
             Product productToDelete = products.Find(prod => prod.Id == id);
