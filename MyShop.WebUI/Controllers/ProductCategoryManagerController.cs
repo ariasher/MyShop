@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MyShop.Core.Exceptions;
 using MyShop.Core.Models;
 using MyShop.DataAccess.InMemory;
 
@@ -11,17 +10,17 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        ProductCategoryRepository context;
+        InMemoryRepository<ProductCategory> context;
 
         public ProductCategoryManagerController()
         {
-            context = new ProductCategoryRepository();
+            context = new InMemoryRepository<ProductCategory>();
         }
 
         // GET: ProductCategoryManager
         public ActionResult Index()
         {
-            List<ProductCategory> productCategories = context.GetProductCategories().ToList();
+            List<ProductCategory> productCategories = context.Collection().ToList();
 
             return View(productCategories);
         }
@@ -30,13 +29,12 @@ namespace MyShop.WebUI.Controllers
         {
             ProductCategory category = new ProductCategory();
             return View(category);
-            //return View();
         }
 
         [HttpPost]
         public ActionResult Create(ProductCategory productCategory)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (!ModelState.IsValid)
             {
                 return View(productCategory);
@@ -56,7 +54,7 @@ namespace MyShop.WebUI.Controllers
                 category = context.Find(Id);
                 return View(category);
             }
-            catch (ProductCategoryNotFoundException exception)
+            catch
             {
                 return HttpNotFound();
             }
@@ -80,7 +78,7 @@ namespace MyShop.WebUI.Controllers
                 return RedirectToAction("Index");
 
             }
-            catch (ProductCategoryNotFoundException exception)
+            catch 
             {
                 return HttpNotFound();
             }
@@ -94,7 +92,7 @@ namespace MyShop.WebUI.Controllers
                 category = context.Find(Id);
                 return View(category);
             }
-            catch (ProductCategoryNotFoundException exception)
+            catch 
             {
                 return HttpNotFound();
             }
@@ -113,7 +111,7 @@ namespace MyShop.WebUI.Controllers
                 context.Commit();
                 return RedirectToAction("Index");
             }
-            catch (ProductCategoryNotFoundException exception)
+            catch
             {
                 return HttpNotFound();
             }
