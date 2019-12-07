@@ -44,17 +44,17 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Product product, HttpPostedFileBase file)
+        public ActionResult Create(Product product, HttpPostedFileBase itemFile)
         {
             if(!ModelState.IsValid)
             {
                 return View(product);
             }
 
-            if(file != null)
+            if(itemFile != null)
             {
-                product.Image = product.Id + Path.GetExtension(file.FileName);
-                file.SaveAs(Server.MapPath("//Content//ProductImages//") + product.Image);
+                product.Image = product.Id + Path.GetExtension(itemFile.FileName);
+                itemFile.SaveAs(Server.MapPath("//Content//ProductImages//") + product.Image);
             }
 
             context.Insert(product);
@@ -84,7 +84,7 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product, string Id, HttpPostedFileBase file)
+        public ActionResult Edit(Product product, string Id, HttpPostedFileBase itemFile)
         {
             Product productToEdit;
             try
@@ -94,10 +94,10 @@ namespace MyShop.WebUI.Controllers
                 if(!ModelState.IsValid)
                     return View(product);
 
-                if (file != null)
+                if (itemFile != null)
                 {
-                    productToEdit.Image = product.Id + Path.GetExtension(file.FileName);
-                    file.SaveAs(Server.MapPath("//Content//ProductImages//") + productToEdit.Image);
+                    productToEdit.Image = product.Id + Path.GetExtension(itemFile.FileName);
+                    itemFile.SaveAs(Server.MapPath("//Content//ProductImages//") + productToEdit.Image);
                 }
 
                 context.Update(productToEdit);
